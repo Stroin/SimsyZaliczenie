@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(BaseNavigation))]
 public class SimpleAI : MonoBehaviour
-{
+{   
     [SerializeField] protected float PickInteractionInterval = 2f;
 
     protected BaseNavigation Navigation;
@@ -16,7 +16,7 @@ public class SimpleAI : MonoBehaviour
 
     private void Awake()
     {
-        Navigation = GetComponent<BaseNavigation>();
+        Navigation = GetComponent<BaseNavigation>(); 
     }
 
     // Start is called before the first frame update
@@ -34,18 +34,18 @@ public class SimpleAI : MonoBehaviour
             {
                 StartedPerforming = true;
                 CurrentInteraction.Perform(this, OnInteractionFinished);
-            }
+            }    
         }
         else
         {
             TimeUntilNextInteractionPicked -= Time.deltaTime;
 
-            // time to pick an interaction
+            // Czas do podjęcia interakcji
             if (TimeUntilNextInteractionPicked <= 0)
             {
                 TimeUntilNextInteractionPicked = PickInteractionInterval;
                 PickRandomInteraction();
-            }
+            }    
         }
     }
 
@@ -58,26 +58,26 @@ public class SimpleAI : MonoBehaviour
 
     void PickRandomInteraction()
     {
-        // pick a random object
+        // bierze randomowy obiekt
         int objectIndex = Random.Range(0, SmartObjectManager.Instance.RegisteredObjects.Count);
         var selectedObject = SmartObjectManager.Instance.RegisteredObjects[objectIndex];
 
-        // pick a random interaction
+        // losowa interakcja
         int interactionIndex = Random.Range(0, selectedObject.Interactions.Count);
         var selectedInteraction = selectedObject.Interactions[interactionIndex];
 
-        // can perform the interaction?
+        // Czy może wykonywać interakcje?
         if (selectedInteraction.CanPerform())
         {
             CurrentInteraction = selectedInteraction;
             CurrentInteraction.LockInteraction();
             StartedPerforming = false;
 
-            // move to the target
-            if (!Navigation.SetDestination(selectedObject.InteractionPoint))
+            // idzie do celu
+            if   (!Navigation.SetDestination(selectedObject.InteractionPoint))
             {
                 Debug.LogError($"Could not move to {selectedObject.name}");
-                CurrentInteraction = null;
+                CurrentInteraction = null;                
             }
             else
                 Debug.Log($"Going to {CurrentInteraction.DisplayName} at {selectedObject.DisplayName}");

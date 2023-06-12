@@ -7,8 +7,8 @@ public class SmartObject : MonoBehaviour
     [SerializeField] protected string _DisplayName;
     [SerializeField] protected Transform _InteractionMarker;
 
-    protected List<BaseInteraction> CachedInteractions = null;
-
+    protected List<BaseInteraction> CachedInteraction = null;
+    
     public Vector3 InteractionPoint => _InteractionMarker != null ? _InteractionMarker.position : transform.position;
 
     public string DisplayName => _DisplayName;
@@ -16,20 +16,19 @@ public class SmartObject : MonoBehaviour
     {
         get
         {
-            if (CachedInteractions == null)
-                CachedInteractions = new List<BaseInteraction>(GetComponents<BaseInteraction>());
+            if (CachedInteraction == null)
+                CachedInteraction = new List<BaseInteraction>(GetComponents<BaseInteraction>());
 
-            return CachedInteractions;
+                return CachedInteraction;
         }
     }
-
     // Start is called before the first frame update
     void Start()
     {
         SmartObjectManager.Instance.RegisterSmartObject(this);
     }
 
-    private void OnDestroy()
+    private void OnDestroy() 
     {
         SmartObjectManager.Instance.DeregisterSmartObject(this);
     }

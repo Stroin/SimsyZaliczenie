@@ -8,7 +8,7 @@ public class SmartObjectManager : MonoBehaviour
 
     public List<SmartObject> RegisteredObjects { get; private set; } = new List<SmartObject>();
 
-    private void Awake()
+    private void Awake() 
     {
         if (Instance != null)
         {
@@ -16,17 +16,16 @@ public class SmartObjectManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-
+        
         Instance = this;
     }
-
     // Start is called before the first frame update
     void Start()
     {
-        
+       
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         
@@ -35,6 +34,8 @@ public class SmartObjectManager : MonoBehaviour
     public void RegisterSmartObject(SmartObject toRegister)
     {
         RegisteredObjects.Add(toRegister);
+        
+        Debug.Log(toRegister.DisplayName);
     }
 
     public void DeregisterSmartObject(SmartObject toDeregister)

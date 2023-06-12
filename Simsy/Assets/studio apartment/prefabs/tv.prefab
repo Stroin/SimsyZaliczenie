@@ -12,6 +12,11 @@ GameObject:
   - component: {fileID: 8234399038333632615}
   - component: {fileID: 4913713564105123988}
   - component: {fileID: 4389606152904972627}
+  - component: {fileID: 925687371}
+  - component: {fileID: 925687372}
+  - component: {fileID: 603184144317871234}
+  - component: {fileID: 3303761227936368722}
+  - component: {fileID: 4253106076765670726}
   m_Layer: 0
   m_Name: tv
   m_TagString: Untagged
@@ -28,9 +33,10 @@ Transform:
   m_GameObject: {fileID: 1595791134755578860}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.4658475, y: 2.4658475, z: 2.4658475}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4060355792635399100}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -97,3 +103,110 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.133997, y: 0.69604397, z: 0.21211982}
   m_Center: {x: -0.0000009536743, y: -0.013672486, z: 0.008572936}
+--- !u!114 &925687371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1595791134755578860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a3afbf7de10d4943aeb422aeb16b72a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _DisplayName: Change Channels
+  _InteractionType: 0
+  _Duration: 0
+  MaxSimulataneousUsers: 1
+--- !u!114 &925687372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1595791134755578860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b94240a6987a5e3458c657774ff1d6b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _DisplayName: TV
+  _InteractionMarker: {fileID: 4060355792635399100}
+--- !u!114 &603184144317871234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1595791134755578860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 077aeb8e7da94c347879c83c23d17fbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _DisplayName: TV
+  _InteractionMarker: {fileID: 4060355792635399100}
+--- !u!114 &3303761227936368722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1595791134755578860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d44aef44f8939b418b2a1f618c55419, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _DisplayName: Toggle Power
+  _InteractionType: 0
+  _Duration: 0
+  MaxSimulataneousUsers: 1
+--- !u!114 &4253106076765670726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1595791134755578860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d10febe169d7fa84c9df24cec325679d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _DisplayName: Change Channel
+  _InteractionType: 0
+  _Duration: 0
+  MaxSimulataneousUsers: 1
+--- !u!1 &4751564770201307147
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4060355792635399100}
+  m_Layer: 0
+  m_Name: Interaction Marker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4060355792635399100
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4751564770201307147}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.578, y: -0.664, z: 0.569}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3393727974801569433}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
