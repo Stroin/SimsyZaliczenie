@@ -159,6 +159,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _DisplayName: Browse
-  _InteractionType: 1
+  _InteractionType: 0
   _Duration: 5
+  StatChanges:
+  - Target: 1
+    Value: 0.18
   MaxSimulataneousUsers: 1
