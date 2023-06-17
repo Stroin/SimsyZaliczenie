@@ -5,15 +5,15 @@ using System.Linq;
 
 [RequireComponent(typeof(BaseNavigation))]
 public class NotSoSimpleAI : CommonAIBase
-{ 
-   [SerializeField] protected float PickInteractionInterval = 2f;  
-   [SerializeField] protected float DefaultInteractionScore = 0f;
-   [SerializeField] protected int InteractionPickSize = 5;
-   
-   protected float TimeUntilNextInteractionPicked = -1f;
+{
+    [SerializeField] protected float DefaultInteractionScore = 0f;
+    [SerializeField] protected float PickInteractionInterval = 2f;
+    [SerializeField] protected int InteractionPickSize = 5;
+
+    protected float TimeUntilNextInteractionPicked = -1f;
 
     // Start is called before the first frame update
-   protected virtual void Start()
+    protected override void Start()
     {
         base.Start();
     }
@@ -22,24 +22,23 @@ public class NotSoSimpleAI : CommonAIBase
     protected override void Update()
     {
         base.Update();
-        
+
         if (CurrentInteraction == null)
         {
             TimeUntilNextInteractionPicked -= Time.deltaTime;
 
-            // Czas do podjęcia interakcji
+            // time to pick an interaction
             if (TimeUntilNextInteractionPicked <= 0)
             {
                 TimeUntilNextInteractionPicked = PickInteractionInterval;
                 PickBestInteraction();
-            }    
+            }
         }
     }
 
-   
     float ScoreInteraction(BaseInteraction interaction)
     {
-        if (interaction.StatChanges.Length ==0)
+        if (interaction.StatChanges.Length == 0)
         {
             return DefaultInteractionScore;
         }
@@ -48,16 +47,17 @@ public class NotSoSimpleAI : CommonAIBase
         foreach(var change in interaction.StatChanges)
             score += ScoreChange(change.Target, change.Value);
 
-            return score;
-        }
+        return score;
+    }
 
-     float ScoreChange(Estat target, float amount)
+    float ScoreChange(EStat target, float amount)
     {
         float currentValue = 0f;
-          switch(target)
+        switch (target)
         {
-            case Estat.Energy: currentValue =CurrentEnergy; break;
-            case Estat.Fun: CurrentFun += CurrentFun; break;
+            case EStat.Energy: currentValue = CurrentEnergy; break;
+            case EStat.Fun: currentValue = CurrentFun; break;
+            case EStat.Hungry: currentValue = CurrentHungry; break;
         }
 
         return (1f - currentValue) * amount;
@@ -65,54 +65,53 @@ public class NotSoSimpleAI : CommonAIBase
 
     class ScoredInteraction
     {
-        public SmartObject TargerObject;
+        public SmartObject TargetObject;
         public BaseInteraction Interaction;
         public float Score;
     }
-     void PickBestInteraction()
+
+    void PickBestInteraction()
     {
-        // przechodzi przez wszystkie obiekty
+        // loop through all the objects
         List<ScoredInteraction> unsortedInteractions = new List<ScoredInteraction>();
-        foreach (var smartObject in SmartObjectManager.Instance.RegisteredObjects)
+        foreach(var smartObject in SmartObjectManager.Instance.RegisteredObjects)
         {
-            // przechodzi przez wszystkie interakcje
+            // loop through all the interactions
             foreach (var interaction in smartObject.Interactions)
             {
-                if (interaction.CanPerform())
+                if (!interaction.CanPerform())
                     continue;
 
-                    float score = ScoreInteraction(interaction);
+                float score = ScoreInteraction(interaction);
 
-                    unsortedInteractions.Add(new ScoredInteraction() {  TargerObject = smartObject,
-                                                                        Interaction = interaction,
-                                                                        Score = score});
+                unsortedInteractions.Add(new ScoredInteraction() { TargetObject = smartObject,
+                                                                 Interaction = interaction, 
+                                                                 Score = score });
             }
         }
 
-        if (unsortedInteractions.Count ==0)
+        if (unsortedInteractions.Count == 0)
             return;
 
-        //sortuje i wybiera jedną z najlepszy interakcji
-        var sortedInteractions = unsortedInteractions.OrderBy(ScoredInteraction => ScoredInteraction.Score).ToList();    
+        // sort and pick from one of the best interactions
+        var sortedInteractions = unsortedInteractions.OrderByDescending(scoredInteraction => scoredInteraction.Score).ToList();
         int maxIndex = Mathf.Min(InteractionPickSize, sortedInteractions.Count);
+        var selectedIndex = Random.Range(0, maxIndex);
 
-        var selecctedIndex = Random.Range(0, maxIndex);
+        var selectedObject = sortedInteractions[selectedIndex].TargetObject;
+        var selectedInteraction = sortedInteractions[selectedIndex].Interaction;
 
-        var selectedObject = sortedInteractions[selecctedIndex].TargerObject;
-        var selectedInteraction = sortedInteractions[selecctedIndex].Interaction;
-       
         CurrentInteraction = selectedInteraction;
-            CurrentInteraction.LockInteraction();
-            StartedPerforming = false;
+        CurrentInteraction.LockInteraction();
+        StartedPerforming = false;
 
-            // idzie do celu
-            if   (!Navigation.SetDestination(selectedObject.InteractionPoint))
-            {
-                Debug.LogError($"Could not move to {selectedObject.name}");
-                CurrentInteraction = null;                
-            }
-            else
-                Debug.Log($"Going to {CurrentInteraction.DisplayName} at {selectedObject.DisplayName}");
-    } 
+        // move to the target
+        if (!Navigation.SetDestination(selectedObject.InteractionPoint))
+        {
+            Debug.LogError($"Could not move to {selectedObject.name}");
+            CurrentInteraction = null;
+        }
+        else
+            Debug.Log($"Going to {CurrentInteraction.DisplayName} at {selectedObject.DisplayName}");
+    }
 }
- 

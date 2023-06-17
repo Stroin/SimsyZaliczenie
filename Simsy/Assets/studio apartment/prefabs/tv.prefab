@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 603184144317871234}
   - component: {fileID: 3303761227936368722}
   - component: {fileID: 4253106076765670726}
-  - component: {fileID: 2914114986087775495}
+  - component: {fileID: 925687377}
   m_Layer: 0
   m_Name: tv
   m_TagString: Untagged
@@ -119,7 +119,7 @@ MonoBehaviour:
   _DisplayName: Change Channels
   _InteractionType: 0
   _Duration: 0
-  StatChanges: []
+  _StatChanges: []
   MaxSimulataneousUsers: 1
 --- !u!114 &925687372
 MonoBehaviour:
@@ -164,7 +164,7 @@ MonoBehaviour:
   _DisplayName: Toggle Power
   _InteractionType: 0
   _Duration: 0
-  StatChanges: []
+  _StatChanges: []
   MaxSimulataneousUsers: 1
 --- !u!114 &4253106076765670726
 MonoBehaviour:
@@ -181,9 +181,9 @@ MonoBehaviour:
   _DisplayName: Change Channel
   _InteractionType: 0
   _Duration: 0
-  StatChanges: []
+  _StatChanges: []
   MaxSimulataneousUsers: 1
---- !u!114 &2914114986087775495
+--- !u!114 &925687377
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -196,11 +196,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _DisplayName: Watch TV
-  _InteractionType: 0
+  _InteractionType: 1
   _Duration: 5
-  StatChanges:
+  _StatChanges:
   - Target: 1
     Value: 0.25
+  - Target: 0
+    Value: -0.25
   MaxSimulataneousUsers: 1
 --- !u!1 &4751564770201307147
 GameObject:
@@ -226,7 +228,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4751564770201307147}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.578, y: -0.664, z: 0.569}
+  m_LocalPosition: {x: -0.578, y: -0.664, z: 0.603}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

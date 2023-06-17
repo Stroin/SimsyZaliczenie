@@ -9,77 +9,77 @@ public class SimpleInteraction : BaseInteraction
     {
         public CommonAIBase PerformingAI;
         public float ElapsedTime;
-        public UnityAction<BaseInteraction> OnCopleted;
+        public UnityAction<BaseInteraction> OnCompleted;
     }
 
-    [SerializeField] protected int MaxSimulataneousUsers = 1;
+    [SerializeField] protected int MaxSimultaneousUsers = 1;
 
     protected int NumCurrentUsers = 0;
     protected List<PerformerInfo> CurrentPerformers = new List<PerformerInfo> ();
-
+    
     public override bool CanPerform()
     {
-        return NumCurrentUsers < MaxSimulataneousUsers;
+        return NumCurrentUsers < MaxSimultaneousUsers;
     }
 
     public override void LockInteraction()
     {
         ++NumCurrentUsers;
 
-        if (NumCurrentUsers > MaxSimulataneousUsers)
+        if (NumCurrentUsers > MaxSimultaneousUsers)
             Debug.LogError($"Too many users have locked this interaction {_DisplayName}");
     }
 
-    public override void Perform(CommonAIBase performer, UnityAction<BaseInteraction> onCompleted = null)
+    public override void Perform(CommonAIBase performer, UnityAction<BaseInteraction> onCompleted)
     {
-        if(NumCurrentUsers <= 0)
+        if (NumCurrentUsers <= 0)
         {
-            Debug.LogError($"Trying to perform an action when there are no users");
+            Debug.LogError($"Trying to perform an interaction when there are no users {_DisplayName}");
             return;
         }
-        
-        // sprawdza typ interakcji
+
+        // check the interaction type
         if (InteractionType == EInteractionType.Instantaneous)
         {
             if (StatChanges.Length > 0)
-                ApllyStatChanges(performer, 1f);
+                ApplyStatChanges(performer, 1f);
 
-           onCompleted.Invoke(this);
+            onCompleted.Invoke(this);
         }
         else if (InteractionType == EInteractionType.OverTime)
         {
             CurrentPerformers.Add(new PerformerInfo() { PerformingAI = performer,
                                                         ElapsedTime = 0, 
-                                                        OnCopleted = onCompleted });
+                                                        OnCompleted = onCompleted });
         }
     }
 
     public override void UnlockInteraction()
     {
         if (NumCurrentUsers <= 0)
-            Debug.LogError($"Trying to unlock an already unlocked interaction");
+            Debug.LogError($"Trying to unlock an already unlocked interaction {_DisplayName}");
 
         --NumCurrentUsers;
     }
 
-    protected virtual void Update() 
+    protected virtual void Update()
     {
-        // aktualizuje wszelkie bieżące wyniki
-        for(int index = CurrentPerformers.Count -1; index >= 0; index--)
+        // update any current performers
+        for(int index = CurrentPerformers.Count - 1; index >= 0; index--)
         {
             PerformerInfo performer = CurrentPerformers[index];
-        
-            float previusElapsedTime = performer.ElapsedTime;
+
+            float previousElapsedTime = performer.ElapsedTime;
             performer.ElapsedTime = Mathf.Min(performer.ElapsedTime + Time.deltaTime, _Duration);
 
             if (StatChanges.Length > 0)
-                ApllyStatChanges(performer.PerformingAI,
-                                (performer.ElapsedTime - previusElapsedTime) / _Duration);
+                ApplyStatChanges(performer.PerformingAI, 
+                                 (performer.ElapsedTime - previousElapsedTime) / _Duration);
 
-            // Zakończona interakcja?
+            // interaction complete?
             if (performer.ElapsedTime >= _Duration)
             {
-                performer.OnCopleted.Invoke(this);
+                performer.OnCompleted.Invoke(this);
                 CurrentPerformers.RemoveAt(index);
             }
         }

@@ -13,7 +13,7 @@ public enum EInteractionType
 [System.Serializable]
 public class InteractionStatChange
 {
-    public Estat Target;
+    public EStat Target;
     public float Value;
 }
 
@@ -28,15 +28,17 @@ public abstract class BaseInteraction : MonoBehaviour
     public EInteractionType InteractionType => _InteractionType;
     public float Duration => _Duration;
     public InteractionStatChange[] StatChanges => _StatChanges;
+
     public abstract bool CanPerform();
     public abstract void LockInteraction();
-    public abstract void Perform(CommonAIBase performer, UnityAction<BaseInteraction> onCompleted = null);
+    public abstract void Perform(CommonAIBase performer, UnityAction<BaseInteraction> onCompleted);
     public abstract void UnlockInteraction();
-    public void ApllyStatChanges(CommonAIBase performer, float proportion)
+
+    public void ApplyStatChanges(CommonAIBase performer, float proportion)
     {
-        foreach(var StatChange in StatChanges)
+        foreach(var statChange in StatChanges)
         {
-            performer.UpdateIndividualStat(StatChange.Target, StatChange.Value * proportion);
+            performer.UpdateIndividualStat(statChange.Target, statChange.Value * proportion);
         }
     }
 }

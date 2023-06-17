@@ -916,14 +916,13 @@ GameObject:
   - component: {fileID: 9145495465095373987}
   - component: {fileID: 1170678054}
   - component: {fileID: 170932077}
-  - component: {fileID: 9140840156614756986}
   m_Layer: 7
   m_Name: Simple AI
   m_TagString: Character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &9145495465095373987
 Transform:
   m_ObjectHideFlags: 0
@@ -980,18 +979,6 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &9140840156614756986
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8223693791530248982}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa8c8a76cd40c6049b6673535a4abf47, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8639117250691383215
 GameObject:
   m_ObjectHideFlags: 0
